@@ -1,13 +1,3 @@
-# RLStudyProject
-
-An Actor Critic Algorithm for Mortgage Refinancing. This repository contains material from a Study Project exploring Reinforcement Learning and its applications in financial modelling, under Dr. Mayank Goel at BITS Goa. The code here is original, and implements an algorithm from the paper **A Simultaneous Deterministic Perturbation Actor-Critic Algorithm with an Application to Optimal Mortgage Refinancing** by **V. L. Raju Chinthalapati and S. Bhatnagar**. The paper can be accessed [here](http://ieeexplore.ieee.org/document/4177608/).
-
-
-
-## License
-
-**This project is released under and protected by the MIT License**
-
 The MIT License (MIT)
 =====================
 
