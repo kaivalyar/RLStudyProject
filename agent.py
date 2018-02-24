@@ -1,21 +1,15 @@
+from mortgage import State
 
-class State:
-	def __init__(self,rt,fb,vt,n):
-		self.rt=rt
-		self.fb=fb
-		self.vt=vt
-		self.n=n
-		
-# A class which will maintain a list of states and return the 
-
-
-class Agent:
-	def __init__(self):
-		self.states=dict()
-
-	def action(self,rt,fb,vt,n):
-		current_state=State(rt,fb,vt,n)
-		return self.states[current_state]
-
-
+class Agent():
+    
+    def __init__(self):
+        self.policies = {}
+        
+    def get_action(self, opportunities, state):
+        policy = self.policies.get(state)
+        if policy is None:
+            policy = get_random_policy()
+        perturb(policy)
+        self.policies[state] = policy
+        return sample_action(policy, opportunities)
 
