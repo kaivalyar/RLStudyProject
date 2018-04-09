@@ -22,6 +22,7 @@ class Mortgage():
         self.total_payments = 60
         self.days = 30 # total expected loan duration is 30*60 days
         self.coupon_payment = self.principle_balance / self.total_payments # might require more than N payments!
+        self.time = 30
         
         self.base_interest_rate=0.06 # rt
         b = 0.005
@@ -32,6 +33,7 @@ class Mortgage():
         self.number_of_payments = 0
     
     def enact(self, action):
+        reward = self.get_reward(action)
         self.number_of_payments += 1
         self.principle_balance -= self.coupon_payment
         print("New balance after coupon payment: ", self.principle_balance)
@@ -58,10 +60,22 @@ class Mortgage():
         c = random.choice([2.0,2.5,3.0,3.5,4.0])
         self.variable_interest_rate = self.base_interest_rate + c
         print("New vt:", self.variable_interest_rate)
-        return self.get_reward(action)
+        return reward
     
     def get_reward(self, action):
-        return random.randint(0,100)
+        c = self.coupon_payment
+        fb = self.variable_fraction
+        vt = self.variable_interest_rate
+        rt = self.base_interest_rate # should be mt!
+        pb = self.principle_balance
+        if self.variable_fraction == action: # no refinance
+            self.time += 30
+            return c + c*fb*vt + c*(1-fb)*rt
+        else:
+            result = 0.02*(pb-c) + c + c*fb*vt*(self.time/self.days) + c*(1-fb)*rt*(self.time/self.days)
+            self.time = 0
+            return result
+            
     
     def refinance_opportunities(self):
         result = None

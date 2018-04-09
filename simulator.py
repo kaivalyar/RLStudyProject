@@ -14,9 +14,11 @@ class Simulator():
         for i in range(10):
             print('\n\n------')
             print('\ngetting action from agent')
-            action = a.get_action(s.m.refinance_opportunities(), s.m.state())
+            state = s.m.state()
+            action = a.get_action(s.m.refinance_opportunities(), state)
             print("\nenacting action in environment")            
             reward = s.m.enact(action)
+            a.update(action, reward, state)
             print("reward: ", reward)
             
 
