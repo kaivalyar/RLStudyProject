@@ -2,6 +2,7 @@ from mortgage import Mortgage
 from agent import Agent
 import numpy as np
 import random
+import timeit
 
 class Simulator():
     
@@ -18,8 +19,9 @@ class Simulator():
             action = a.get_action(s.m.refinance_opportunities(), state)
             print("\nenacting action in environment")            
             reward = s.m.enact(action)
+            print("\nupdating agent policies based on reward = ", reward)
             a.update(action, reward, state)
-            print("reward: ", reward)
+            
             
 
 def main():
