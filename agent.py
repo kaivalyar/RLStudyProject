@@ -8,7 +8,7 @@ import numpy as np
 
 delta = 0.01
 L = 1
-alpha = 0
+alpha = 0.05
 
 C = 2**(math.ceil(math.log(12, 2))) # C = 16
 hadamard = hadamard(C)
@@ -52,7 +52,7 @@ class Agent():
         print("Sampled action with given policy is: ", result)
         return result
 
-    def update(self, action, reward, state):
+    def update(self, action, reward, state, time_passed, current_coupon_payment):
         print("updating state = {}".format(state))
         n = self.updates[state]
         policy = self.policies[state]
@@ -61,7 +61,7 @@ class Agent():
         a = Agent.a(n)
         inverse_del_pi_i = Agent.inverse(Agent.get_del_pi_i(n))
         print("inverse del pi i = ", inverse_del_pi_i)
-        v_n_l = Agent.V(n, state, reward)
+        v_n_l = Agent.V(n, state, reward, time_passed, current_coupon_payment)
         print("Vnl = ", v_n_l)
         new_policy = Agent.project(policy + a*(v_n_l/delta)*inverse_del_pi_i)
         print("new policy = ", new_policy)
@@ -84,11 +84,36 @@ class Agent():
         b = 1/(n+1)
         return b
 
-    def V(n, state, reward):
+    def V(n, state, reward, time_passed, current_coupon_payment):
         if n == 0: # base case
             return 2
         b = Agent.b(n)
-        return (1-b)*Agent.V(n-1, state) + b*(reward + alpha*( 1 ))
+
+
+        del_pi_i = Agent.get_del_pi_i(n)
+        pi_bar = Agent.project(self.policies[state]+delta*del_pi_i)
+        new_fb = self.sample_action(pi_bar)
+        
+        c = current_coupon_payment
+        fb = state.variable_fraction
+        vt = state.variable_interest_rate
+        rt = state.base_interest_rate # should be mt!
+        days = 30
+        
+        if fb == new_fb: # no expected refinance
+            e_reward = c + c*fb*vt + c*(1-fb)*rt
+        else:
+            e_reward = c + c*fb*vt*(time_passed/days) + c*(1-fb)*rt*(time_passed/days)
+        val = Agent.eV(n-1, None, e_reward)
+
+
+        return (1-b)*Agent.V(n-1, state, reward, time_passed, current_coupon_payment) + b*(reward + alpha*( val ))
+    
+    def eV(n, state, reward):
+        if n == 0: # base case
+            return 2
+        b = Agent.b(n)
+        return (1-b)*Agent.eV(n-1, state, reward) + b*(reward)
     
     def project(policy):
         minimum = np.amin(policy)

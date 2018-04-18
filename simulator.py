@@ -20,7 +20,7 @@ class Simulator():
             print("\nenacting action in environment")            
             reward = s.m.enact(action)
             print("\nupdating agent policies based on reward = ", reward)
-            a.update(action, reward, state)
+            a.update(action, reward, state, s.m.time, s.m.coupon_payment)
             
             
 
