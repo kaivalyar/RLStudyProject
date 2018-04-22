@@ -2,7 +2,7 @@
 
 An Actor Critic Algorithm for Mortgage Refinancing. This repository contains material from a Study Project exploring Reinforcement Learning and its applications in financial modelling, under Dr. Mayank Goel at BITS Goa. The code here is original, and implements an algorithm from the paper **A Simultaneous Deterministic Perturbation Actor-Critic Algorithm with an Application to Optimal Mortgage Refinancing** by **V. L. Raju Chinthalapati and S. Bhatnagar**. The paper can be accessed [here](http://ieeexplore.ieee.org/document/4177608/).
 
-An intersting an unexplored possibility is to replace the agent class with another off-the-shelf agent from, such as [this one](https://github.com/openai/baselines/tree/master/baselines/deepq), and see how this affects training time, convergence, and the quality of the ddecisions made by the agent.
+An intersting and unexplored possibility is to replace the agent class with another off-the-shelf agent from, such as [this one](https://github.com/openai/baselines/tree/master/baselines/deepq), and see how this affects training time, convergence, and the quality of the decisions made by the agent.
 
 
 ## License
